@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+     <meta charset="UTF-8" />
+     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+     <meta name="description" content="A clean reading-focused blog." />
+     <title>Driftlog</title>
+     <link rel="stylesheet" href="./src/styles/main.css" />
+</head>
+
+<body>
+     <nav>
+          <a href="#/" class="nav-brand">
+               <img style="width: 35px;height: 35px;border-radius: 50%;" src="./orange_cube.png">
+          </a>
+          <a href="#/articles">Artigos</a>
+          <a href="#/ebook">Ebook</a>
+          <a href="#/contact">Contato</a>
+     </nav>
+
+     <main id="app"></main>
+
+     <footer>
+          <a href="#/legal/privacidade">Política de Privacidade</a>
+          <a href="#/legal/termos">Termos de Uso</a>
+          <a href="#/legal/cookies">Política de Cookies</a>
+     </footer>
+
+     <script type="module">
+          import { initRouter } from "./src/router.js"
+          initRouter()
+     </script>
+</body>
+
+</html>
