@@ -1,7 +1,7 @@
-import * as Articles from "./pages/articles.js"
-import * as Contact  from "./pages/contact.js"
-import * as Ebook    from "./pages/ebook.js"
-import * as Legal    from "./pages/legal.js"
+import * as Home    from "./pages/home.js"
+import * as Contact from "./pages/contact.js"
+import * as Ebook   from "./pages/ebook.js"
+import * as Legal   from "./pages/legal.js"
 
 function setActiveNav() {
   const hash = location.hash || "#/"
@@ -19,8 +19,20 @@ export function initRouter() {
     const hash = location.hash || "#/"
     setActiveNav()
 
-    if (hash === "#/" || hash === "" || hash.startsWith("#/articles")) {
-      Articles.render()
+    // Artigo específico: #/articles/intro-web
+    const articleMatch = hash.match(/#\/articles\/(.+)/)
+    if (articleMatch) {
+      if (!document.getElementById("article-view")) {
+        Home.render(articleMatch[1])
+      } else {
+        Home.loadArticle(articleMatch[1])
+      }
+      return
+    }
+
+    // Home / lista de artigos
+    if (hash === "#/" || hash === "" || hash === "#/articles") {
+      Home.render(null)
       return
     }
 
@@ -34,6 +46,7 @@ export function initRouter() {
       return
     }
 
+    // Legal: #/legal/privacidade, #/legal/termos, #/legal/cookies
     const legalMatch = hash.match(/#\/legal\/(.+)/)
     if (legalMatch) {
       Legal.render(legalMatch[1])
@@ -43,7 +56,7 @@ export function initRouter() {
     document.getElementById("app").innerHTML = `
       <div class="not-found">
         <span class="code">404</span>
-        <p>Page not found. <a href="#/">Go home.</a></p>
+        <p>Página não encontrada. <a href="#/">Voltar ao início.</a></p>
       </div>
     `
   }
