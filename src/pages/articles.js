@@ -1,51 +1,5 @@
-import { parseMarkdown } from "../lib/marked.js"
-
-const posts = [
-  { slug: "intro-web", title: "Introdução programação WEB" },
-  { slug: "intro-javascript", title: "Introdução JavaScript" },
-]
-
-let articleCache = {}
-
-async function fetchArticle(slug) {
-  if (articleCache[slug]) return articleCache[slug]
-  try {
-    const res = await fetch(`./articles/${slug}.md`)
-    if (!res.ok) return null
-    const text = await res.text()
-    articleCache[slug] = text
-    return text
-  } catch {
-    return null
-  }
-}
-
-async function searchArticles(query) {
-  const term = query.trim().toLowerCase()
-  if (!term) return []
-
-  const results = []
-
-  for (const post of posts) {
-    const content = await fetchArticle(post.slug)
-    if (!content) continue
-
-    const lower = content.toLowerCase()
-    const index = lower.indexOf(term)
-
-    if (index !== -1) {
-      const start = Math.max(0, index - 60)
-      const end = Math.min(content.length, index + term.length + 60)
-      let excerpt = content.slice(start, end).replace(/[#*`]/g, "").trim()
-      if (start > 0) excerpt = "..." + excerpt
-      if (end < content.length) excerpt = excerpt + "..."
-
-      results.push({ post, excerpt, index })
-    }
-  }
-
-  return results
-}
+import { parseMarkdown }                       from "../lib/marked.js"
+import { posts, fetchArticle, searchArticles } from "../services/articleService.js"
 
 function highlight(text, term) {
   const escaped = term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
